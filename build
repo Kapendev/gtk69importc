@@ -3,8 +3,14 @@
 # This script only works with LDC.
 # DMD is missing some vector stuff and GDC has not the same flags with LDC.
 dc="ldc2"
+main="./app.d"
+output="./app"
 
 cd "$(dirname $0)"
 cflags="$(pkg-config --cflags gtk4 | sed 's/[^ ]\+/-P&/g')"
 lflags="$(pkg-config --libs gtk4 | sed 's/[^ ]\+/-L&/g')"
-$dc $cflags $lflags app.d && ./app
+buildCommand="$dc $cflags $lflags $main -of $output"
+
+echo "Command: $buildCommand"
+echo ""
+$buildCommand && $output
